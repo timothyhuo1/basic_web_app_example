@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Where is the ISS?</h1>
+    <a href="/">Go To Home</a>
+    <a href="/all.html">Go To All</a>
+    <p>latitude : <span id="lat"></span></p>
+    <p>longitude: <span id="lon"></span></p>
+
+    <label for="fname">First name: </label>
+    <input type="text" id="fname" name="fname">
+    <input type="button" value="store coords" onclick="postData()" />
+    
+    <script>
+        const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
+
+        async function postData() {
+            const ISSResponse = await fetch(api_url);
+            const ISSData = await ISSResponse.json();
+            const latitude = ISSData.latitude;
+            const longitude = ISSData.longitude;
+            const fname = document.getElementById("fname").value;
+            const sendData = { latitude, longitude, fname };
+            const options = {
+                method: 'POST',
+                headers:  {
+                    'Content-Type': 'application/json'   
+                },
+                body: JSON.stringify(sendData)
+            };
+            const response = await fetch('/api', options);
+            const data = await response.json();
+            console.log(data);
+            document.getElementById('lat').textContent = latitude;
+            document.getElementById('lon').textContent = longitude;
+
+        }
+    </script>
+</body>
+</html>
