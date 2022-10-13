@@ -7,26 +7,44 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Where is the ISS?</h1>
-    <a href="/">Go To Home</a>
-    <a href="/all.html">Go To All</a>
-    <p>latitude : <span id="lat"></span></p>
-    <p>longitude: <span id="lon"></span></p>
+    <!-- Title -->
+    <h1>Favorite Pokemon</h1>
 
-    <label for="fname">First name: </label>
-    <input type="text" id="fname" name="fname">
-    <input type="button" value="store coords" onclick="postData()" />
+    <!-- Navbar using 'a' tags -->
+    <a href="/">Home</a>
+    <a href="/all.html">All</a>
+
+    <!-- Creating input forms: label and input (text field) -->
+    <!-- Make sure to remember the id b/c of DOM -->
+    <label for="name">Name: </label>
+    <input type="text" id="name" name="name">
+
+    <label for="type">Type: </label>
+    <input type="text" id="type" name="type">
+
+    <label for="image">Image: </label>
+    <input type="text" id="image" name="image">
+
+    <!-- Button with onclick that will trigger the postData() function in the script tag -->
+    <input type="button" value="Submit" onclick="postData()" />
     
-    <script>
-        const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
+    <script> 
 
+        // Create function
         async function postData() {
-            const ISSResponse = await fetch(api_url);
-            const ISSData = await ISSResponse.json();
-            const latitude = ISSData.latitude;
-            const longitude = ISSData.longitude;
-            const fname = document.getElementById("fname").value;
-            const sendData = { latitude, longitude, fname };
+
+            // Get the value of the input tags (text field) using DOM
+            const name = document.getElementById("name").value;
+            const type = document.getElementById("type").value;
+            const image = document.getElementById("image").value;
+
+            // Store the values in a dictionary 
+            const sendData = { name, type, image };
+
+            // Create a dictionary to declare the method, headers, and body
+            // Method: Post (storing information in a database)
+            // Headers: Metadata (format of the request), Content-Type will be JSON format 
+            // Body: Content of the request, need to convert the data into JSON format
             const options = {
                 method: 'POST',
                 headers:  {
@@ -34,12 +52,12 @@
                 },
                 body: JSON.stringify(sendData)
             };
-            const response = await fetch('/api', options);
-            const data = await response.json();
-            console.log(data);
-            document.getElementById('lat').textContent = latitude;
-            document.getElementById('lon').textContent = longitude;
 
+            // Contact the endpoint '/api' with options 
+            const response = await fetch('/api', options);
+
+            // Store the response from the server in data 
+            const data = await response.json();
         }
     </script>
 </body>

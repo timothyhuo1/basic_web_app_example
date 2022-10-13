@@ -7,30 +7,59 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Data</h1>
-    <a href="/">Go To Home</a>
-    <a href="/all.html">Go To All</a>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- Title -->
+    <h1>Display Data</h1>
+
+    <!-- Navbar using 'a' tags -->
+    <a href="/">Home</a>
+    <a href="/all.html">All</a>
+
     <script>
+        // Create function
         async function getData() {
+
+            // Contact the /api endpoint to retrieve information from the database
             const response = await fetch('/api');
             const data = await response.json();
+
+            // Iterate each item in data 
             for (item of data) {
+
+                // Create div elements to store each properties of item
                 const root = document.createElement('div');
-                const fname = document.createElement('div');
-                const geo = document.createElement('div');
+                const name = document.createElement('div');
+                const type = document.createElement('div');
+                const img = document.createElement('img')
                 const date = document.createElement('div');
 
-                fname.textContent = `fname: ${item.fname}`;
-                geo.textContent = `${item.latitude}, ${item.longitude}`;
+                // Set the created div elements text to the item's property 
+                name.textContent = `name: ${item.name}`;
+                type.textContent = `type: ${item.type}`;
+                img.src = item.image;
                 const dateString = new Date(item.timestamp).toLocaleString();
                 date.textContent = dateString;
 
-                root.append(fname, geo, date);
+                // Append it to the root (parent) div
+                root.append(name, type, img, date);
+
+                // Append to the body 
                 document.body.append(root);
             }
-            console.log(data);
         }
+        // Call getData() b/c it is not triggered by anything 
         getData();
     </script>
+</body>
+</html>
 </body>
 </html>
