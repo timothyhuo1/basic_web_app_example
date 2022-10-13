@@ -2,6 +2,7 @@ const express = require('express');
 const dataStore = require('nedb')
 const app = express();
 
+// NEW: generated port from hosting service 
 const port = process.env.PORT || 3001
 app.listen(port, () => console.log(`starting server at ${port}`))
 
